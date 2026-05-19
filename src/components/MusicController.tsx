@@ -18,24 +18,23 @@ export default function MusicController() {
         if (audioRef.current && audioRef.current.paused) {
           audioRef.current.play().then(() => {
             setIsPlaying(true);
-          }).catch(() => {});
+          }).catch(console.warn);
         }
         document.removeEventListener("click", playAudio);
         document.removeEventListener("scroll", playAudio);
         document.removeEventListener("touchstart", playAudio);
       };
 
-      // Attempt immediate autoplay
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(() => {
-        // Fallback: wait for user's first interaction if browser blocks autoplay
-        document.addEventListener("click", playAudio);
-        document.addEventListener("scroll", playAudio);
-        document.addEventListener("touchstart", playAudio);
-      });
+      // Listen for the 'Enter' button click from the Preloader
+      window.addEventListener("start-music", playAudio);
+
+      // Keep fallbacks
+      document.addEventListener("click", playAudio);
+      document.addEventListener("scroll", playAudio);
+      document.addEventListener("touchstart", playAudio);
 
       return () => {
+        window.removeEventListener("start-music", playAudio);
         document.removeEventListener("click", playAudio);
         document.removeEventListener("scroll", playAudio);
         document.removeEventListener("touchstart", playAudio);

@@ -17,9 +17,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            onComplete();
-          }, 600); // Small delay for the fade-out transition
+          // Wait briefly, then show the "Enter" button instead of auto-completing
           return 100;
         }
         // Random increments for a realistic load feel (Faster)
@@ -86,10 +84,28 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               />
             </div>
 
-            {/* Progress Percentage */}
-            <div className="flex justify-between w-full font-poppins text-[10px] tracking-widest text-[#E8E2D5]/60 uppercase">
-              <span>Loading Experience</span>
-              <span className="tabular-nums">{progress}%</span>
+            {/* Progress Percentage or Enter Button */}
+            <div className="flex justify-between w-full font-poppins text-[10px] tracking-widest text-[#E8E2D5]/60 uppercase h-10 items-center">
+              {progress < 100 ? (
+                <>
+                  <span>Loading Experience</span>
+                  <span className="tabular-nums">{progress}%</span>
+                </>
+              ) : (
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  onClick={() => {
+                    // This click is the user interaction needed to unlock audio
+                    window.dispatchEvent(new CustomEvent("start-music"));
+                    onComplete();
+                  }}
+                  className="w-full py-2 tracking-[0.4em] text-[#D4AF37] border border-[#D4AF37]/30 hover:bg-[#D4AF37]/10 transition-colors rounded-sm"
+                >
+                  ENTER THE CELEBRATION
+                </motion.button>
+              )}
             </div>
           </div>
 
