@@ -22,11 +22,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           }, 600); // Small delay for the fade-out transition
           return 100;
         }
-        // Random increments for a realistic load feel (Slower)
-        const next = prev + Math.floor(Math.random() * 4) + 1;
+        // Random increments for a realistic load feel (Faster)
+        const next = prev + Math.floor(Math.random() * 15) + 5;
         return next > 100 ? 100 : next;
       });
-    }, 120);
+    }, 40);
 
     return () => clearInterval(interval);
   }, [onComplete]);

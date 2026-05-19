@@ -69,7 +69,7 @@ export default function MusicController() {
 
   return (
     <div className="fixed bottom-8 right-8 z-40 flex items-center gap-4">
-      <audio ref={audioRef} loop preload="auto" onError={(e) => console.warn("Audio stream fallback notice:", e)}>
+      <audio ref={audioRef} autoPlay loop preload="auto" onError={(e) => console.warn("Audio stream fallback notice:", e)}>
         <source src="/wedding-song.mp3" type="audio/mpeg" />
       </audio>
 
